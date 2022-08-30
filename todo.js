@@ -1,10 +1,37 @@
-document.getElementById('adicionar').addEventListener('click', function(){
-    const inputTarefa = document.getElementById('tarefa');
-    const tarefa = inputTarefa.value;
-    if (tarefa.trim()){
-        const li = document.createElement ('li');
-        li.innerText = tarefa;
-        document.getElementById('tarefas').appendChild(li);
-        inputTarefa.value = '';
+const inputTarefa = document.getElementById('tarefa');
+//inputTarefa.onkeyup
+inputTarefa.onkeydown = function (event){
+    if (event.key === 'Enter'){
+        adicionarTarefa();
     }
-})
+}
+document.getElementById('adicionar').addEventListener('click', adicionarTarefa);
+function adicionarTarefa() {
+    const tarefa = inputTarefa.value;
+    if (tarefa.trim()) {
+        const li = document.createElement ('li');
+        const span = document.createElement('span');
+        const textNode = document.createTextNode(tarefa.trim());
+        span.appendChild(textNode);
+        span.onclick = function(){
+            if(span.classList.contains('done')){
+                span.classList.remove('done');
+            }else{
+                span.classList.add('done');
+            }
+        };
+        li.appendChild(span);
+        const ol = document.getElementById('tarefas');
+        const button = document.createElement('button');
+        button.appendChild(document.createTextNode('Excluir'));
+        button.onclick = function(){
+            if (confirm('Deseja excluir?')){
+                ol.removeChild(li);
+            }
+        };
+        li.appendChild(button);
+        ol.appendChild(li);
+        inputTarefa.value ='';
+        alert('Tarefa adicionada com sucesso!');
+    }
+};
