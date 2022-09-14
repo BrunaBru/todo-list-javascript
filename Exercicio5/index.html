@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faixa etaria</title>
+    <!-- LINK DO BOOTSTRAP -->
+</head>
+<body class="container">
+    <header class="row mt-5">
+        <h1 class="col-md-12 text-center">Faixa etaria</h1>
+    </header>
+    <section class="row">
+        <div class="col-md-4-offset-4">
+            <label for="dataNascimento">Informe a data de nascimento: </label>
+            <input type="date" id="dataNascimento" class="w-100">
+            <h3 id="ageGroup"></h3>
+<!--         <p></p> paragrafo         -->
+        </div>
+    </section>
+
+    <!-- script bootstrap -->
+
+    <script>
+        document.querySelector('#dataNascimento').addEventListener('change', ({target : {value} } ) => {
+            const [year, month , day] = value.split('-');//separa a data em ano, mes e dia. a data vira array
+            const currentDate = new Date();
+            if(year > 1900){
+                let age = currentDate.getFullYear() - year;
+                if((currentDate.getMonth()+1) < +month){// o simbolo de + mais, na frente da string MONTH, transforma ela em int
+                    age --;
+                }else if(((currentDate.getMonth()+1) == month) && (currentDate.getDate() > day )){
+                    age --;
+                }
+                let ageGroup;
+                if (age < 19 ){
+                    ageGroup ='Jovem';
+                }else if (age >=20 && age <=59){
+                    ageGroup='Adulto';
+                }else{
+                    ageGroup='Idoso';
+                }
+                document.querySelector('#ageGroup').innerHTML = `Idade: ${age} <br> Classificação: ${ageGroup}`;
+            }
+        })
+        
+    </script>
+</body>
+</html>
